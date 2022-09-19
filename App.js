@@ -1,32 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
+import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { Audio } from 'expo-av';
+import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginPage from './Pages/LoginPage'
+import LoginPage from './Pages/LoginPage';
 
 const Stack = createNativeStackNavigator();
-
-
-export default function App(){
+export default function App (){
   return(
     <NavigationContainer>
-      <Stack.Navigator>
-       <Stack.Screen options={{headerShown:false}} name="Login" component={LoginPage}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginPage} />
+    </Stack.Navigator>
+  </NavigationContainer>
   )
+
+    
 
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'lightblue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  
-});
+const Styles = StyleSheet.create({
+  container:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+},
+})

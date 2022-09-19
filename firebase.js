@@ -1,19 +1,25 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from 'firebase/firestore'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBiaEWzkRays3yvA2nGxbhyGJQvGWIF5Lc",
-    authDomain: "audio-eb388.firebaseapp.com",
-    projectId: "audio-eb388",
-    storageBucket: "audio-eb388.appspot.com",
-    messagingSenderId: "976748006006",
-    appId: "1:976748006006:web:bad079555a1279cc00ad57",
-    measurementId: "G-XVMMZQDH8S"
-  };
+  apiKey: "AIzaSyAVHAJUosCrc9b-JSbyIls16yS2M6wgM48",
+  authDomain: "audio-f4c9c.firebaseapp.com",
+  projectId: "audio-f4c9c",
+  storageBucket: "audio-f4c9c.appspot.com",
+  messagingSenderId: "300488076526",
+  appId: "1:300488076526:web:232f7a875e1d6b6b9357ff"
+};
 
-  if (!firebase.app.length){
-    firebase.initializeApp(firebaseConfig)
-  }
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const analytics = getAnalytics(app);
 
-  export {firebase};
+export { auth, db };

@@ -1,11 +1,34 @@
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native'
 import React,{useState} from 'react'
-import { TouchableOpacity } from 'react-native-web'
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native'
+import { TouchableOpacity } from 'react-native-web';
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+
+
 
 const LoginPage = () => {
  const [email, setEmail]= useState("");
  const [password,setPassword]=useState("")
  
+ const navigation = useNavigation();
+
+ const handleSignUp=()=>{
+    createUserWithEmailAndPassword(auth,email,password).then (userCredentials=>{
+        const user = userCredentials.user;
+        console.log(user.email);
+    }).catch(error=>alert(error.message))
+ }
+
+ const handleSignIn=()=>{
+    signInWithEmailAndPassword(auth,email,password).then(userCredentials=>{
+        const user= userCredentials.user;
+        console.log(user.email);
+    }).catch(error=> alert(error.message))
+ }
+
+    
 
   return (
     <KeyboardAvoidingView
@@ -23,7 +46,7 @@ const LoginPage = () => {
             <TextInput
                 placeholder='Password'
                 value={password}
-                onChangeText={text=> setPassword(password)}
+                onChangeText={text=> setPassword(text)}
                 style={styles.input}
                 secureTextEntry
             />
@@ -31,7 +54,7 @@ const LoginPage = () => {
 
         <View style={styles.buttonContainer}>
             <TouchableOpacity
-                onPress={()=> {}}
+                onPress={handleSignIn}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Login</Text>
@@ -39,7 +62,7 @@ const LoginPage = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={()=> {}}
+                onPress={handleSignUp}
                 style={[styles.button, styles.buttonOutline]}
             >
                 <Text style={styles.buttonOutlineText}>Register</Text>
