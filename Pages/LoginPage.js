@@ -2,7 +2,6 @@ import React,{useState} from 'react'
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native'
 import { TouchableOpacity } from 'react-native-web';
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
@@ -17,12 +16,7 @@ const LoginPage = () => {
  
  const navigation = useNavigation();
 
- const handleSignUp=()=>{
-    createUserWithEmailAndPassword(auth,email,password).then (userCredentials=>{
-        const user = userCredentials.user;
-        console.log(user.email);
-    }).catch(error=>alert(error.message))
- }
+
 
  const handleSignIn=()=>{
     signInWithEmailAndPassword(auth,email,password).then(userCredentials=>{
@@ -62,8 +56,6 @@ const LoginPage = () => {
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Login</Text>
-                
-
             </TouchableOpacity>
 
         </View>

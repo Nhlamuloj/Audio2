@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-web';
+import {auth} from '../firebase'
 import { Audio } from 'expo-av';
 const HomePage = () => {
  
@@ -62,13 +64,23 @@ const HomePage = () => {
   }
   return(
     <View style={styles.container}>
+      <Text>Email:{auth.currentUser?.email}</Text>
       <Text>{message}</Text>
       <Button 
       title={recording ? 'Stop Recording': 'Start Recording'}
       onPress = {recording ? stopRecording : startRecording}/>
       {getRecordingLines()}
       <StatusBar style="auto"/>
+
+      <TouchableOpacity
+                
+                style={styles.button2}
+            >
+                <Text style={styles.buttonText}>LogOut</Text>
+            </TouchableOpacity>
+
     </View>
+    
   );
 }
  
@@ -90,7 +102,15 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 16
-  }
+  },
+
+  button2:{
+    backgroundColor:'blue',
+    width:'10%',
+    padding:15,
+    borderRadius:10,
+
+},
 });
 
  
