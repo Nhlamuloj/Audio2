@@ -11,6 +11,9 @@ import { useNavigation } from '@react-navigation/native';
 const LoginPage = () => {
  const [email, setEmail]= useState("");
  const [password,setPassword]=useState("")
+
+
+
  
  const navigation = useNavigation();
 
@@ -24,6 +27,7 @@ const LoginPage = () => {
  const handleSignIn=()=>{
     signInWithEmailAndPassword(auth,email,password).then(userCredentials=>{
         const user= userCredentials.user;
+        navigation.navigate("HomePage")
         console.log(user.email);
     }).catch(error=> alert(error.message))
  }
@@ -58,16 +62,10 @@ const LoginPage = () => {
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Login</Text>
+                
 
             </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress={handleSignUp}
-                style={[styles.button, styles.buttonOutline]}
-            >
-                <Text style={styles.buttonOutlineText}>Register</Text>
-
-            </TouchableOpacity>
         </View>
 
     </KeyboardAvoidingView>
