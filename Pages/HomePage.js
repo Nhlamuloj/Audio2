@@ -1,10 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-web';
 import {auth} from '../firebase'
 import { Audio } from 'expo-av';
+
 const HomePage = () => {
+
+  const navigation=useNavigation();
+
+  const handleSignOut = () =>{
+    auth
+    .signOut()
+    .then(()=>{
+      navigation.replace("LoginPage")
+    })
+    .catch(error => alert(error.message))
+  }
  
   const [recording, setRecording] = React.useState();
   const [recordings, setRecordings] = React.useState([]);
@@ -73,7 +86,7 @@ const HomePage = () => {
       <StatusBar style="auto"/>
 
       <TouchableOpacity
-                
+                onPress={handleSignOut }
                 style={styles.button2}
             >
                 <Text style={styles.buttonText}>LogOut</Text>
@@ -106,11 +119,11 @@ const styles = StyleSheet.create({
 
   button2:{
     backgroundColor:'blue',
-    width:'10%',
+    width:'40%',
     padding:15,
     borderRadius:10,
-
-},
+    marginTop:35,
+ },
 });
 
  
