@@ -1,135 +1,128 @@
-import React,{useState} from 'react'
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native'
-import { TouchableOpacity } from 'react-native-web';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import React, { useState } from 'react'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../firebase'
 
 
-const RegisterPage = () => {
-    const [email, setEmail]= useState("");
-    const [password,setPassword]=useState("")
-   
-   
-   
-    
-    const navigation = useNavigation();
-   
-    const handleSignUp=()=>{
-       createUserWithEmailAndPassword(auth,email,password).then (userCredentials=>{
-           const user = userCredentials.user;
-           console.log(user.email);
-       }).catch(error=>alert(error.message))
-    }
-   
-    const handleSignIn=()=>{
-       signInWithEmailAndPassword(auth,email,password).then(userCredentials=>{
-           const user= userCredentials.user;
-           navigation.navigate("HomePage")
-           console.log(user.email);
-       }).catch(error=> alert(error.message))
-    }
-   
-       
-   
-     return (
-       <KeyboardAvoidingView
-           style ={styles.container}
-           behavior="padding"
-       >
-           <View style={styles.inputContainer}>
-               <TextInput
-                   placeholder='Email'
-                   value={email}
-                   onChangeText={text =>setEmail(text)}
-                   style={styles.input}
-               />
-   
-               <TextInput
-                   placeholder='Password'
-                   value={password}
-                   onChangeText={text=> setPassword(text)}
-                   style={styles.input}
-                   secureTextEntry
-               />
-           </View>
-   
-           <View style={styles.buttonContainer}>
-               <TouchableOpacity
-                   onPress={handleSignIn}
-                   style={styles.button}
-               >
-                   <Text style={styles.buttonText}>Login</Text>
-   
-               </TouchableOpacity>
-   
-               <TouchableOpacity
-                   onPress={handleSignUp}
-                   style={[styles.button, styles.buttonOutline]}
-               >
-                   <Text style={styles.buttonOutlineText}>Register</Text>
-   
-               </TouchableOpacity>
-           </View>
-   
-       </KeyboardAvoidingView>
-     )
+export default function RegisterPage({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const register = (() => {
+    createUserWithEmailAndPassword(auth, email, password)
+    navigation.push('HomePage');
+  })
+
+  return (
+    <KeyboardAvoidingView
+      style={{height:'100%'}}
+    >
+      <View style={[styles.container, { height: "10%" }]}>
+        <Text style={styles.welcome}>Welcome</Text>
+        <Text style={styles.Login}>Register</Text>
+        <TextInput
+          placeholder='Name'
+          placeholderTextColor={'white'}
+          style={styles.input}
+        />
+
+        <TextInput
+          placeholder='Email'
+          placeholderTextColor={'white'}
+          style={styles.input}
+          onChangeText={(email) => setEmail(email)}
+
+        />
+
+        <TextInput
+          placeholder='Password'
+          placeholderTextColor={'white'}
+          style={styles.input}
+          secureTextEntry={true}
+          onChange={(password) => setPassword(password)}
+        />
+
+        <TouchableOpacity
+          style={styles.RegBtn}
+          onPress={register}
+        >
+          <Text style={styles.RegTxt}>Register</Text>
+        </TouchableOpacity>
+
+        <View style={styles.signUpText}>
+          <Text style={styles.signUpTxt}>Have an account?</Text>
+          <TouchableOpacity
+            onPress={() => navigation.push('LoginPage')}
+          >
+            <Text style={[styles.signUpTxt,{color:'#B53471'}]}>
+              {'Click Here'}
+            </Text>
+
+          </TouchableOpacity>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
+  )
 }
 
- 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
-    },
+  container: {
+    flex: 1,
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    backgroundColor: "#04D4F0"
+  },
 
-    inputContainer:{
-        width:'80%'
-    },
- 
-    input:{
-        backgroundColor:'white',
-        paddingHorizontal:15,
-        paddingVertical:10,
-        borderRadius:10,
-        marginTop:5,
+  input: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#333',
+    borderRadius: 6,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    color: '#808e9b',
+  },
 
-    },
+  RegBtn: {
+    backgroundColor: '#4663ac',
+    paddingVertical: 12,
+    borderRadius: 6,
+    marginTop: 20
+  },
 
-    buttonContainer:{
-        width:'60%',
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:'10%'
+  welcome: {
+    fontSize: 30,
+    fontWeight: 900,
+    color: '#000000',
+    alignSelf: 'center'
+  },
 
-    },
-    
-    button:{
-        backgroundColor:'blue',
-        width:'100%',
-        padding:15,
-        borderRadius:10,
+  Login: {
+    color: 'white',
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10
+  },
+  RegTxt: {
+    fontSize: 20,
+    fontWeight: 500,
+    color: '#e8ecf2',
+    alignSelf: 'center'
+  },
 
-    },
-    buttonText:{
+  signUpText: {
+    marginTop: 40,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 
+  signUpTxt: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '500'
+  },
 
-    },
-
-    buttonOutline:{
-        backgroundColor:'white',
-        marginTop:5,
-        borderColor:'blue',
-        borderWidth:2,
-
-    },
-    buttonOutlineText:{
-
-    },
-
-    
 })
-
-export default RegisterPage

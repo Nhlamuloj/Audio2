@@ -11,11 +11,12 @@ const Stack = createNativeStackNavigator();
 export default function App (){
   return(
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginPage} />
-      <Stack.Screen name="HomePage" component={HomePage} />
-    </Stack.Navigator>
-  </NavigationContainer>
+     <Stack.Navigator>
+       <Stack.Screen options={{headerShown:false}} name="LoginPage" component={LoginPage} />
+       <Stack.Screen options={{headerShown:false}} name="RegisterPage" component={RegisterPage} />
+       <Stack.Screen options={{headerShown:false}} name="HomePage" component={HomePage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 
     

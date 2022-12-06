@@ -5,20 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-web';
 import {auth} from '../firebase'
 import { Audio } from 'expo-av';
+import LoginPage from './LoginPage';
 
 const HomePage = () => {
 
   const navigation=useNavigation();
 
-  const handleSignOut = () =>{
-    auth
-    .signOut()
-    .then(()=>{
-      navigation.replace("LoginPage")
-    })
-    .catch(error => alert(error.message))
-  }
- 
+const signOut =async()=>{
+  auth
+  .signOut()
+  .then(()=>console.log('user signed out'))
+  navigation.push('LoginPage')
+}
   const [recording, setRecording] = React.useState();
   const [recordings, setRecordings] = React.useState([]);
   const [message, setMessage] = React.useState([]);
@@ -77,8 +75,6 @@ const HomePage = () => {
   }
   return(
     <View style={styles.container}>
-      <Text>Email:{auth.currentUser?.email}</Text>
-      <Text>{message}</Text>
       <Button 
       title={recording ? 'Stop Recording': 'Start Recording'}
       onPress = {recording ? stopRecording : startRecording}/>
@@ -86,7 +82,7 @@ const HomePage = () => {
       <StatusBar style="auto"/>
 
       <TouchableOpacity
-                onPress={handleSignOut }
+                onPress={signOut}
                 style={styles.button2}
             >
                 <Text style={styles.buttonText}>LogOut</Text>
@@ -118,12 +114,18 @@ const styles = StyleSheet.create({
   },
 
   button2:{
-    backgroundColor:'blue',
+    backgroundColor:'#4663ac',
     width:'40%',
     padding:15,
     borderRadius:10,
     marginTop:35,
  },
+
+ buttonText:{
+  justifyContent:'center',
+  alignSelf:'center'
+
+ }
 });
 
  

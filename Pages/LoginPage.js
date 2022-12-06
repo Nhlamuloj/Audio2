@@ -1,121 +1,143 @@
-import React,{useState} from 'react'
-import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native'
-import { TouchableOpacity } from 'react-native-web';
+import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import HomePage from './HomePage';
 
 
 
-const LoginPage = () => {
- const [email, setEmail]= useState("");
- const [password,setPassword]=useState("")
+
+const LoginPage = ({ navigation }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const login = (() => {
+        signInWithEmailAndPassword(auth, email, password).then(() => {
+            navigation.push(HomePage)
+        })
+    })
 
 
+    return (
+        <KeyboardAvoidingView
+            style={{ height: '100%' }}
+        >
+            <View style={[styles.container, { height: '100%' }]}>
+                <Text style={styles.welcome}>Welcome Back</Text>
+                <Text style={styles.Login}>Login</Text>
 
- 
- const navigation = useNavigation();
+                <TextInput
+                    placeholder='Email Address'
+                    placeholderTextColor={'white'}
+                    style={styles.input}
+                    onChange={(email) => setEmail(email)}
+                />
 
+                <TextInput
+                    placeholder='Password'
+                    placeholderTextColor={'white'}
+                    style={styles.input}
+                    onChange={(password) => setPassword(password)}
+                />
+                <TouchableOpacity
+                    onPress={() => navigation.push('Forgot')}
+                >
+                    <Text style={styles.fpText}>Forgot Password</Text>
+                </TouchableOpacity>
 
+                <TouchableOpacity
+                    style={styles.LoginBtn}
+                    onPress={login}
+                >
+                    <Text style={styles.LoginTxt}>Login</Text>
+                </TouchableOpacity>
 
- const handleSignIn=()=>{
-    signInWithEmailAndPassword(auth,email,password).then(userCredentials=>{
-        const user= userCredentials.user;
-        navigation.navigate("HomePage")
-        console.log(user.email);
-    }).catch(error=> alert(error.message))
- }
+                <View style={styles.signUpTextView}>
+                    <Text style={styles.signUpTxt}>Don't have account?</Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.push('RegisterPage')}
+                    >
+                        <Text style={[styles.signUpTxt, { color: '#B53471' }]}>
+                            {'Sign Up'}
+                        </Text>
 
-    
-
-  return (
-    <KeyboardAvoidingView
-        style ={styles.container}
-        behavior="padding"
-    >
-        <View style={styles.inputContainer}>
-            <TextInput
-                placeholder='Email'
-                value={email}
-                onChangeText={text =>setEmail(text)}
-                style={styles.input}
-            />
-
-            <TextInput
-                placeholder='Password'
-                value={password}
-                onChangeText={text=> setPassword(text)}
-                style={styles.input}
-                secureTextEntry
-            />
-        </View>
-
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity
-                onPress={handleSignIn}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-
-        </View>
-
-    </KeyboardAvoidingView>
-  )
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </KeyboardAvoidingView>
+    )
 }
 
 export default LoginPage
- 
+
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
+    container: {
+        flex: 1,
+        paddingTop: 50,
+        paddingHorizontal: 20,
+        backgroundColor: "#04D4F0"
     },
 
-    inputContainer:{
-        width:'80%'
-    },
- 
-    input:{
-        backgroundColor:'white',
-        paddingHorizontal:15,
-        paddingVertical:10,
-        borderRadius:10,
-        marginTop:5,
-
+    welcome: {
+        fontSize: 30,
+        fontWeight: 900,
+        color: '	#000000',
+        alignSelf: 'center'
     },
 
-    buttonContainer:{
-        width:'60%',
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:'10%'
 
-    },
-    
-    button:{
-        backgroundColor:'blue',
-        width:'100%',
-        padding:15,
-        borderRadius:10,
-
-    },
-    buttonText:{
-
-
+    Login: {
+        color: '#fbfcfc',
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginTop: 20,
+        marginBottom: 10
     },
 
-    buttonOutline:{
-        backgroundColor:'white',
-        marginTop:5,
-        borderColor:'blue',
-        borderWidth:2,
-
+    input: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#333',
+        borderRadius: 6,
+        marginTop: 10,
+        paddingHorizontal: 10,
+        fontSize: 16,
+        color: '#808e9b',
     },
-    buttonOutlineText:{
 
+    fpText: {
+        alignSelf: 'flex-end',
+        color: '#fbfcfc',
+        fontWeight: '600',
+        marginTop: 10,
     },
 
-    
+    LoginBtn: {
+        backgroundColor: '#4663ac',
+        paddingVertical: 12,
+        borderRadius: 6,
+        marginTop: 20
+    },
+
+    LoginTxt: {
+        fontSize: 20,
+        fontWeight: 500,
+        color: '#e8ecf2',
+        alignSelf: 'center'
+    },
+
+    signUpTextView: {
+        marginTop: 40,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+
+    signUpTxt: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: '500'
+    },
+
+
 })
